@@ -6,13 +6,27 @@
  */
 
 module.exports = {
-  list: function(req, res) {
+  list: (req, res) => {
     Articles.find({}).exec((err, articles) => {
       console.log("Here:", articles);
       if (err) {
         res.send(500, { error: "Database Error" });
       }
-      res.view("list", { articles: articles });
+      res.view("list", { articles });
+    });
+  },
+
+  add: (req, res) => {
+    res.view("add");
+  },
+
+  create: (req, res) => {
+    const newArticle = { title: req.body.title, body: req.body.body };
+    Articles.create(newArticle).exec(err => {
+      if (err) {
+        res.send(500, { error: "Database Error" });
+      }
+      res.redirect("/articles/list");
     });
   }
 };
