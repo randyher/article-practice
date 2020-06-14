@@ -8,7 +8,6 @@
 module.exports = {
   list: (req, res) => {
     Articles.find({}).exec((err, articles) => {
-      console.log("Here:", articles);
       if (err) {
         res.send(500, { error: "Database Error" });
       }
@@ -45,7 +44,19 @@ module.exports = {
       if (err) {
         res.send(500, { error: "Database Error" });
       }
-      res.view("edit", article);
+      res.view("edit", { article });
+    });
+  },
+  update: (req, res) => {
+    console.log("Update", req.query);
+    const updatedArticle = { title: req.query.title, body: req.query.body };
+    const { id } = req.params;
+
+    Articles.update({ id }, updatedArticle).exec(err => {
+      if (err) {
+        res.send(500, { error: "Database Error" });
+      }
+      res.redirect("/articles/list");
     });
   }
 };
