@@ -18,8 +18,9 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
 
-  "/": { view: "pages/homepage" }
-  // "/articles": { view: "list" }
+  "/": { view: "pages/homepage" },
+  "/articles/edit/:id": "ArticlesController.edit",
+  "POST /articles/delete/:id": "ArticlesController.delete"
 
   /***************************************************************************
    *                                                                          *

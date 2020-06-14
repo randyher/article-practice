@@ -28,5 +28,24 @@ module.exports = {
       }
       res.redirect("/articles/list");
     });
+  },
+  delete: (req, res) => {
+    const { id } = req.params;
+
+    Articles.destroy({ id }).exec(err => {
+      if (err) {
+        res.send(500, { error: "Database Error" });
+      }
+      res.redirect("/articles/list");
+    });
+  },
+  edit: (req, res) => {
+    const { id } = req.params;
+    Articles.findOne({ id }).exec((err, article) => {
+      if (err) {
+        res.send(500, { error: "Database Error" });
+      }
+      res.view("edit", article);
+    });
   }
 };
